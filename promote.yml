@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+    - chmod 755 ./promote.sh
+  build:
+    commands:
+    - ./promote.sh
