@@ -238,13 +238,13 @@
     "ProdUrl": {
       "Description": "Prod URL of the API gateway",
       "Value": {"Fn::Join": ["",
-        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/",{"Ref": "ApiProdStage::Properties::StageName"},"/" ,{"Ref":"Resource::PathPart"}]
+        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/","prod/greeting"]
       ]}
     },
     "StageUrl": {
       "Description": "Stage URL of the API gateway",
       "Value": {"Fn::Join": ["",
-        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/",{"Ref": "ApiStageStage::Properties::StageName"},"/" ,{"Ref":"Resource::PathPart"}]
+        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/","stage/greeting"]
       ]}
     }
   }
