@@ -13,5 +13,7 @@ artifacts:
     - package.json
     - promote.sh
     - promote.yml
+    - revert.yml
+    - revert.sh
     - index.json
     - lib/**/*

@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-    - chmod 755 ./promote.sh
+    - chmod 755 ./revert.sh
   build:
     commands:
-    - ./promote.sh
+    - ./revert.sh
