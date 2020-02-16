@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xe
 
-lambda_name=GreetingLambda
+lambda_name=Lambda
 version=`aws lambda publish-version --function-name $lambda_name --query Version  --output text`
 alias="PROD"
 
