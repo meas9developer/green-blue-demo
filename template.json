@@ -235,10 +235,16 @@
   },
 
   "Outputs": {
-    "RootUrl": {
-      "Description": "Root URL of the API gateway",
+    "ProdUrl": {
+      "Description": "Prod URL of the API gateway",
       "Value": {"Fn::Join": ["",
-        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com"]
+        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/",{"Ref": "ApiProdStage::StageName"},"/" ,{"Ref":"Resource::PartPath"}]
+      ]}
+    },
+    "StageUrl": {
+      "Description": "Stage URL of the API gateway",
+      "Value": {"Fn::Join": ["",
+        ["https://", {"Ref": "Api"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/",{"Ref": "ApiStageStage::StageName"},"/" ,{"Ref":"Resource::PartPath"}]
       ]}
     }
   }
