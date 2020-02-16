@@ -13,7 +13,7 @@
             "'use strict';",
             "",
             "// Initial Echo Lambda",
-            "exports.handler = (event, context, callback) => {",
+            "exports.handler = ( event, context, callback) => {",
             "  console.log('Event:', JSON.stringify(event));",
             "  callback(null, event);",
             "};"

@@ -11,5 +11,7 @@ artifacts:
   files:
     - template.json
     - package.json
+    - promote.sh
+    - promote.yml
     - index.json
     - lib/**/*
