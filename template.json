@@ -12,7 +12,7 @@
           "ZipFile": { "Fn::Join": ["\n", [
             "exports.lambda_handler = function (event, context) {",
             "	console.log(event);",
-            "	context.succeed('hello bhai ' + event.name);",
+            "	context.succeed('hello bhai jan1' + event.name);",
            " };"    
           ]]}
         },
