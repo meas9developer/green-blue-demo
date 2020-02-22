@@ -1,9 +1,0 @@
-version: 0.2
-
-phases:
-  install:
-    commands:
-    - chmod 755 ./promote.sh
-  build:
-    commands:
-    - ./promote.sh
