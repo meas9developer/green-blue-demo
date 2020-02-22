@@ -10,12 +10,13 @@
       "Properties": {
         "Code": {
           "ZipFile": { "Fn::Join": ["\n", [
-         	" def handler(event,context):",
-           	" return {",
-            	    "'body': 'Hello there {0}'.format(event['requestContext']['identity']['sourceIp']),",
-                    "'headers': { 'Content-Type': 'text/plain' },",
-                    "'statusCode': 200",
-                " };"
+            "'use strict';",
+            "",
+            "// Initial Echo Lambda",
+            "exports.handler = ( event, context, callback) => {",
+            "  console.log('Event:', JSON.stringify(event));",
+            "  callback(null, event);",
+            "};"
           ]]}
         },
         "Description": "A Lambada function",
