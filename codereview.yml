@@ -13,7 +13,6 @@ phases:
       - Organization=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.organization')
       - Project=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.project')
       - sonar_host_url="https://sonarcloud.io"
-      - sonar_token='$sonar_token:'
       - |
         pwd;
         cd /opt ;
@@ -27,4 +26,4 @@ phases:
   build:
     commands:
       - echo $sonar_token $sonar_host_url $Project $Organization
-      - response=$(sonar-scanner -Dsonar.login=$sonar_token -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization)
+      - set -x && response=$(sonar-scanner -X -Dsonar.login=$sonar_token: -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization)
