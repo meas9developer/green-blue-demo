@@ -2,7 +2,8 @@
 
 const greeter = require('./lib/greeter');
 
-exports.handler = function(event, context) {
+process.stdout.write("index hello: ");
+exports.lambda_handler = function(event, context) {
     console.log('Event:', JSON.stringify(event));
     
     const greeting = greeter.greet(event.name);
