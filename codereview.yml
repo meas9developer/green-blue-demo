@@ -29,7 +29,7 @@ phases:
       - echo $sonar_token $sonar_host_url $Project $Organization
       - result=`sonar-scanner -Dsonar.login=$sonar_token -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization  -Dsonar.password=`
       - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
-      -| # Allow time for SonarQube Background Task to complete
+      - | # Allow time for SonarQube Background Task to complete
         stat="PENDING";
         while [ "$stat" != "SUCCESS" ]; do
           if [ $stat = "FAILED" ] || [ $stat = "CANCELLED" ]; then
