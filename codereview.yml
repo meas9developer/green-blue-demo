@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - sonar_host_url: https://sonarcloud.io
-      - result:
+      - result: ""
       - apt-get update
       - apt-get install -y jq
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
