@@ -9,7 +9,6 @@ phases:
     commands:
       - apt-get update
       - apt-get install -y jq
-      - sonar_project_key="$REPOSITORY_NAME"
       - sonar_token=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.sonartoken')
       - Organization=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.organization')
       - Project=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.project')
@@ -27,4 +26,4 @@ phases:
   build:
     commands:
       - echo $sonar_token $sonar_host_url $Project $Organization
-      - sonar-scanner -Dsonar.login=$sonar_token':' -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+      - sonar-scanner -Dsonar.login='$sonar_token:' -Dsonar.host.url='$sonar_host_url' -Dsonar.projectKey='$Project' -Dsonar.organization='$Organization'
