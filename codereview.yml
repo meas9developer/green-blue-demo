@@ -20,7 +20,7 @@ phases:
         pwd ;
         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip ;
         unzip sonar-scanner-cli-4.2.0.1873-linux.zip ;
-        mv sonar-scanner-cli-4.2.0.1873-linux sonar-scanner ;
+        mv sonar-scanner-4.2.0.1873-linux sonar-scanner ;
         rm sonar-scanner-cli-4.2.0.1873-linux.zip* ;
         export PATH=$PATH:/opt/sonar-scanner/bin ;
       
