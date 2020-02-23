@@ -1,7 +1,7 @@
 #!/bin/sh
 set -x
 
-result=`sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 Dsonar.projectKey=$4`
+result=`sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 -Dsonar.organization=$4`
 
 
 sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
