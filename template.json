@@ -10,20 +10,10 @@
       "Properties": {
         "Code": {
           "ZipFile": { "Fn::Join": ["\n", [
-<<<<<<< HEAD
-            "'use strict';",
-            "",
-            "// Initial Echo Lambda",
-            "exports.handler = ( event, context, callback) => {",
-            "  console.log('Event:', JSON.stringify(event));",
-            "  callback(null, event);",
-            "};"
-=======
             "exports.lambda_handler = function (event, context) {",
             "	console.log(event);",
             "	context.succeed('hello bhai jan1' + event.name);",
            " };"    
->>>>>>> 96bbc754473a7167680a7c374a2f0904e9ef223d
           ]]}
         },
         "Description": "A Lambada function",
