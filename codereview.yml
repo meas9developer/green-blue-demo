@@ -18,6 +18,7 @@ phases:
       - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
   build:
-    commands:  
+    commands:
+      - echo $LOGIN $sonar_host_url $Project $Organization
       - sonar-scanner -Dsonar.login=$LOGIN:  -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
          
