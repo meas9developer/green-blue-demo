@@ -1,0 +1,7 @@
+organization=meas9developer
+projectKey=green-blue-demo
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.4927
+dashboardUrl=https://sonarcloud.io/dashboard?id=green-blue-demo
+ceTaskId=AXByaHILECNxzoOFb4qs
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXByaHILECNxzoOFb4qs

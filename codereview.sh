@@ -1,8 +1,9 @@
 #!/bin/sh
 set -x
 
-result=`sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 -Dsonar.organization=$4`
+result=`sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 -Dsonar.organization=$4  -Dsonar.password=`
 
+sonar_host_url=$2
 
 sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
 # Allow time for SonarQube Background Task to complete
@@ -12,12 +13,12 @@ stat="PENDING";
             echo "SonarCloud task $sonar_task_id failed";
             exit 1;
           fi
-          stat=$(curl -u $LOGIN: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.status');
+          stat=$(curl -u $1: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.status');
           echo "SonarQube analysis status is $stat";
           sleep 5;
         done
-      sonar_analysis_id=$(curl -u $LOGIN: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.analysisId')
-      quality_status=$(curl -u $LOGIN: $sonar_host_url/api/qualitygates/project_status\?analysisId=$sonar_analysis_id | jq -r '.projectStatus.status')
+      sonar_analysis_id=$(curl -u $1: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.analysisId')
+      quality_status=$(curl -u $1: $sonar_host_url/api/qualitygates/project_status\?analysisId=$sonar_analysis_id | jq -r '.projectStatus.status')
         if [ $quality_status = "ERROR" ]; then
           content=$(echo "SonarQube analysis complete. Quality Gate Failed.\n\nTo see why, $sonar_link");
           $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;
