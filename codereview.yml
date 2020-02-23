@@ -22,8 +22,10 @@ phases:
         mv sonar-scanner-4.2.0.1873-linux sonar-scanner ;
         rm sonar-scanner-cli-4.2.0.1873-linux.zip* ;
         export PATH=$PATH:/opt/sonar-scanner/bin ;
+        cd -
       
   build:
     commands:
       - echo $sonar_token $sonar_host_url $Project $Organization
-      - codereview.sh $sonar_token $sonar_host_url $Project $Organization
+      - chmod +x codereview.sh
+      - ./codereview.sh $sonar_token $sonar_host_url $Project $Organization
