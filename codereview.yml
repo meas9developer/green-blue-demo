@@ -26,5 +26,5 @@ phases:
       
   build:
     commands:
-      - echo $sonar_host_url $Project $Organization
-      - sonar-scanner "-Dsonar.login=$sonar_token:"  "-Dsonar.host.url=$sonar_host_url" "-Dsonar.projectKey=$Project" "-Dsonar.organization=$Organization"
+      - echo $sonar_token $sonar_host_url $Project $Organization
+      - sonar-scanner -Dsonar.login=$sonar_token":" -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
