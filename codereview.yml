@@ -15,11 +15,14 @@ phases:
       - Project=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.project')
       - sonar_host_url="https://sonarcloud.io"
       - |
-        cd /opt && wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip \
-        && unzip sonar-scanner-cli-4.2.0.1873-linux.zip \
-        && mv sonar-scanner-cli-4.2.0.1873-linux sonar-scanner \
-        && rm sonar-scanner-cli-4.2.0.1873-linux.zip* \
-        && export PATH=$PATH:/opt/sonar-scanner/bin/
+        pwd
+        cd /opt 
+        pwd
+        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip \
+        unzip sonar-scanner-cli-4.2.0.1873-linux.zip \
+        mv sonar-scanner-cli-4.2.0.1873-linux sonar-scanner \
+        rm sonar-scanner-cli-4.2.0.1873-linux.zip* \
+        export PATH=$PATH:/opt/sonar-scanner/bin/
       
   build:
     commands:
