@@ -1,9 +1,5 @@
 version: 0.2
-env:
-  secrets-manager:
-    LOGIN: odepipeline/sonar/proj1:sonartoken
-    Organization: odepipeline/sonar/proj1:organization
-    Project: odepipeline/sonar/proj1:project
+
 phases:
   install:
     runtime-versions:
@@ -11,14 +7,18 @@ phases:
       
   pre_build:
     commands:
-      - sonar_host_url: https://sonarcloud.io
       - apt-get update
       - apt-get install -y jq
+      - sonar_project_key="$REPOSITORY_NAME"
+      - sonar_token=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.sonartoken')
+      - Organization=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.organization')
+      - Project=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.project')
+      - sonar_host_url="https://sonarcloud.io"
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
       - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
       - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+      
   build:
     commands:
       - echo $LOGIN $sonar_host_url $Project $Organization
-      - sonar-scanner "-Dsonar.login=$LOGIN:"  "-Dsonar.host.url=$sonar_host_url" "-Dsonar.projectKey=$Project" "-Dsonar.organization=$Organization"
-         
+      - sonar-scanner "-Dsonar.login=$sonar_token:"  "-Dsonar.host.url=$sonar_host_url" "-Dsonar.projectKey=$Project" "-Dsonar.organization=$Organization"
