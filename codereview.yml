@@ -1,0 +1,52 @@
+version: 0.2
+env:
+  secrets-manager:
+    LOGIN: odepipeline/sonar/proj1:sonartoken
+    Organization: odepipeline/sonar/proj1:organization
+    Project: odepipeline/sonar/proj1:project
+phases:
+  install:
+    runtime-versions:
+      java: openjdk11
+      
+  pre_build:
+    commands:
+      - sonar_host_url: https://sonarcloud.io
+      - apt-get update
+      - apt-get install -y jq
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+      - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
+      - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+  build:
+    commands:  
+      - result=$(sonar-scanner -Dsonar.login=$LOGIN:  -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization)
+         
+  post_build:
+    commands:      
+      - sonar_link=$(echo $result | egrep -o "you can browse http://[^, ]+")
+      - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
+      - | # Allow time for SonarQube Background Task to complete
+        stat="PENDING";
+        while [ "$stat" != "SUCCESS" ]; do
+          if [ $stat = "FAILED" ] || [ $stat = "CANCELLED" ]; then
+            echo "SonarCloud task $sonar_task_id failed";
+            exit 1;
+          fi
+          stat=$(curl -u $LOGIN: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.status');
+          echo "SonarQube analysis status is $stat";
+          sleep 5;
+        done
+      - sleep 5
+      - sonar_analysis_id=$(curl -u $LOGIN: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.analysisId')
+      - quality_status=$(curl -u $LOGIN: $sonar_host_url/api/qualitygates/project_status\?analysisId=$sonar_analysis_id | jq -r '.projectStatus.status')
+      - |
+        if [ $quality_status = "ERROR" ]; then
+          content=$(echo "SonarQube analysis complete. Quality Gate Failed.\n\nTo see why, $sonar_link");
+          $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;
+        elif [ $quality_status = "OK" ]; then
+          content=$(echo "SonarQube analysis complete. Quality Gate Passed.\n\nFor details, $sonar_link");
+          #aws codecommit update-pull-request-approval-state --pull-request-id $PULL_REQUEST_ID --approval-state APPROVE --revision-id $REVISION_ID;
+        else
+          content="An unexpected error occurred while attempting to analyze with SonarQube.";
+        fi
+     
