@@ -26,4 +26,4 @@ phases:
   build:
     commands:
       - echo $sonar_token $sonar_host_url $Project $Organization
-      - sonar-scanner -X -Dsonar.login="1f4f45025e39045ef163929f91ea285cc809cf26:" -Dsonar.host.url="https://sonarcloud.io"  -Dsonar.projectKey="green-blue-demo"  -Dsonar.organization="meas9developer"
+      - sonar-scanner -X -Dsonar.login=1f4f45025e39045ef163929f91ea285cc809cf26: -Dsonar.host.url=https://sonarcloud.io  -Dsonar.projectKey=green-blue-demo  -Dsonar.organization=meas9developer
