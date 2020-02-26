@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   secrets-manager: 
-    SONARQUBE_TOKEN: odepipeline/sonar/proj1:sonartoken
+    SONARQUBE_TOKEN: odepipeline/sonar/proj1-Z7NypM:sonartoken
 
 phases:
   install:
