@@ -10,9 +10,6 @@ phases:
       - apt-get update
       - apt-get install -y jq
       - sonar_token=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.sonartoken')
-      - Organization=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.organization')
-      - Project=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.project')
-      - sonar_host_url="https://sonarcloud.io"
       - |
         pwd;
         cd /opt ;
@@ -26,8 +23,8 @@ phases:
       
   build:
     commands:
-      - echo $sonar_token $sonar_host_url $Project $Organization
-      - result=`sonar-scanner -Dsonar.login=$sonar_token -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization  -Dsonar.password=`
+      - echo $sonar_token $sonar.host.url $sonar.projectKey  $sonar.organization
+      - result=`sonar-scanner -Dsonar.login=$sonar_token -Dsonar.password=`
       - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
       - | # Allow time for SonarQube Background Task to complete
         stat="PENDING";
