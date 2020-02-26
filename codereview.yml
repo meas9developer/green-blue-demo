@@ -29,9 +29,10 @@ phases:
   build:
     commands:
       - echo $sonar_token $sonar.host.url $sonar.projectKey  $sonar.organization
-      - result=`sonar-scanner -X `
+      - echo sonar_token SONARQUBE_TOKEN
+      - result=`sonar-scanner -X`
       - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
-      - echo $sonar_task_id
+      - echo $sonar_task_id $SONARQUBE_TOKEN
       - | # Allow time for SonarQube Background Task to complete
         stat="PENDING";
         while [ "$stat" != "SUCCESS" ]; do
