@@ -26,9 +26,10 @@ phases:
       
   build:
     commands:
-      - result=`sonar-scanner -Dsonar.login=$sonar_token -Dsonar.organization=$Organization  -Dsonar.password=`
+      - result=`sonar-scanner -Dsonar.login=$sonar_token -Dsonar.organization=$Organization  -Dsonar.password=""`
       - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
       - | # Allow time for SonarQube Background Task to complete
+        echo;
         stat="PENDING";
         while [ "$stat" != "SUCCESS" ]; do
           if [ $stat = "FAILED" ] || [ $stat = "CANCELLED" ]; then
