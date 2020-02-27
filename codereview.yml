@@ -29,7 +29,8 @@ phases:
   build:
     commands:
       - echo $sonar_token $sonar.host.url $sonar.projectKey  $sonar.organization
-      - echo sonar_token SONARQUBE_TOKEN
+      - echo sonar_token $SONARQUBE_TOKEN
+      - export 
       - result=`sonar-scanner -X`
       - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
       - echo $sonar_task_id $SONARQUBE_TOKEN
