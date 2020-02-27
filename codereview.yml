@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  secrets-manager: 
-    SONARQUBE_TOKEN: arn:aws:secretsmanager:us-west-2:779225950789:secret:codepipeline/sonar/proj1-Z7NypM:sonartoken
-
 phases:
   install:
     runtime-versions:
@@ -13,8 +9,10 @@ phases:
     commands:
       - apt-get update
       - apt-get install -y jq
-      - sonar_host_url="https://sonarcloud.io"
       - sonar_token=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.sonartoken')
+      - Organization=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.organization')
+      - Project=$(aws secretsmanager get-secret-value --secret-id codepipeline/sonar/proj1 | jq -r '.SecretString' | jq -r '.project')
+      - sonar_host_url="https://sonarcloud.io"
       - |
         pwd;
         cd /opt ;
@@ -28,12 +26,9 @@ phases:
       
   build:
     commands:
-      - echo $sonar_token $sonar.host.url $sonar.projectKey  $sonar.organization
-      - echo sonar_token $SONARQUBE_TOKEN
-      - export 
-      - result=`sonar-scanner -X`
+      - echo $sonar_token $sonar_host_url $Project $Organization
+      - result=`sonar-scanner -Dsonar.login=$sonar_token -Dsonar.host.url=$sonar_host_url -Dsonar.projectKey=$Project -Dsonar.organization=$Organization  -Dsonar.password=`
       - sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
-      - echo $sonar_task_id $SONARQUBE_TOKEN
       - | # Allow time for SonarQube Background Task to complete
         stat="PENDING";
         while [ "$stat" != "SUCCESS" ]; do
