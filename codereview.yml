@@ -40,8 +40,8 @@ phases:
           echo "SonarQube analysis status is $stat";
           sleep 5;
         done
-      sonar_analysis_id=$(curl -u $sonar_token:"" $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.analysisId')
-      quality_status=$(curl -u $sonar_token:"" $sonar_host_url/api/qualitygates/project_status\?analysisId=$sonar_analysis_id | jq -r '.projectStatus.status')
+        sonar_analysis_id=$(curl -u $sonar_token:"" $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.analysisId')
+        quality_status=$(curl -u $sonar_token:"" $sonar_host_url/api/qualitygates/project_status\?analysisId=$sonar_analysis_id | jq -r '.projectStatus.status')
         if [ $quality_status = "ERROR" ]; then
           content=$(echo "SonarQube analysis complete. Quality Gate Failed.\n\nTo see why, $sonar_link");
           $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;
