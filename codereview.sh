@@ -6,6 +6,7 @@ result='sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3
 
 sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
 # Allow time for SonarQube Background Task to complete
+LOGIN=$1
 stat="PENDING";
         while [ "$stat" != "SUCCESS" ]; do
           if [ $stat = "FAILED" ] || [ $stat = "CANCELLED" ]; then
