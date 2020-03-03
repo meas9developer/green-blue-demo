@@ -17,3 +17,4 @@ artifacts:
     - revert.sh
     - index.json
     - lib/**/*
+    - src/**/*
