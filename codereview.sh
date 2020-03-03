@@ -8,7 +8,7 @@ sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
 # Allow time for SonarQube Background Task to complete
 LOGIN=$1
 stat="PENDING";
-        while [ "$stat" != "SUCCESS" ]; do
+        while [ $stat != "SUCCESS" ]; do
           if [ $stat = "FAILED" ] || [ $stat = "CANCELLED" ]; then
             echo "SonarCloud task $sonar_task_id failed";
             exit 1;
@@ -28,3 +28,4 @@ stat="PENDING";
         else
           content="An unexpected error occurred while attempting to analyze with SonarQube.";
         fi
+ echo $content
