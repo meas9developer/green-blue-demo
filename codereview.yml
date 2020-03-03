@@ -28,4 +28,4 @@ phases:
     commands:
       - echo $sonar_token $sonar_host_url $Project $Organization
       - chmod +x codereview.sh
-      - CODEBUILD_BUILD_SUCCEEDING=`./codereview.sh $sonar_token $sonar_host_url $Project $Organization`
+      - . ./codereview.sh $sonar_token $sonar_host_url $Project $Organization
