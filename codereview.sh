@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 set -x
-
+echo $1 $2 $3 $4
 result='sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 -Dsonar.projectKey=$4 -Dsonar.password=""'
 
 
