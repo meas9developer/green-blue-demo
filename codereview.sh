@@ -1,8 +1,8 @@
 #!/bin/bash
 set -x
 echo $1 $2 $3 $4
-result='sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 -Dsonar.projectKey=$4 -Dsonar.password=""'
-
+result=`sonar-scanner -Dsonar.login=$1 -Dsonar.host.url=$2 -Dsonar.projectKey=$3 -Dsonar.projectKey=$4 -Dsonar.password=""`
+echo $result 
 
 sonar_task_id=$(echo $result | egrep -o "task\?id=[^ ]+" | cut -d'=' -f2)
 # Allow time for SonarQube Background Task to complete
