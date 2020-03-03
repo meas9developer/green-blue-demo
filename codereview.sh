@@ -19,13 +19,13 @@ stat="PENDING";
         done
       sonar_analysis_id=$(curl -u $LOGIN: $sonar_host_url/api/ce/task\?id=$sonar_task_id | jq -r '.task.analysisId')
       quality_status=$(curl -u $LOGIN: $sonar_host_url/api/qualitygates/project_status\?analysisId=$sonar_analysis_id | jq -r '.projectStatus.status')
-        if [ $quality_status = "ERROR" ]; then
+        if [ "$quality_status" = "ERROR" ]; then
           content=$(echo "SonarQube analysis complete. Quality Gate Failed.\n\nTo see why, $sonar_link");
           $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;
-        elif [ $quality_status = "OK" ]; then
+        elif [ "$quality_status" = "OK" ]; then
           content=$(echo "SonarQube analysis complete. Quality Gate Passed.\n\nFor details, $sonar_link");
           #aws codecommit update-pull-request-approval-state --pull-request-id $PULL_REQUEST_ID --approval-state APPROVE --revision-id $REVISION_ID;
         else
           content="An unexpected error occurred while attempting to analyze with SonarQube.";
         fi
- echo $content
+        return $CODEBUILD_BUILD_SUCCEEDING
