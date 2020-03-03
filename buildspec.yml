@@ -11,10 +11,8 @@ artifacts:
   files:
     - template.json
     - package.json
-    - promote.sh
-    - promote.yml
-    - revert.yml
-    - revert.sh
+    - codereview.yml
+    - codereview.sh
     - index.json
     - lib/**/*
     - src/**/*
